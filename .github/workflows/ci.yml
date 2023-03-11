@@ -1,41 +1,42 @@
 name: Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'main'
+      - 'master'
+  pull_request:
+    branches:
+      - 'main'
+      - 'master'
 
 jobs:
-  build:
-    strategy:
-      fail-fast: false
-      matrix:
-        target_name: [esp32AIThinker]
-        target_build_type: ["", _release, _OTA]
+  build_container:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Build Docker Image
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Build and push conatiner
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
-          tags: test-image:latest
-          push: false
-      - name: Run Docker container
-        uses: addnab/docker-run-action@v3
+          push: true
+          tags: ghcr.io/${{ github.repository }}:latest,ghcr.io/${{ github.repository }}:${{ github.sha }}
+      - uses: actions/checkout@master
+      - name: Build and push volume container
+        uses: docker/build-push-action@v2
         with:
-          image: test-image:latest
-          options: -v ${{ github.workspace }}:/workspace
-          run: |
-            cd ESP
-            export OPENIRIS_CI_BUILD=1
-            mkdir build 
-            mkdir build/${{ matrix.target_name }}${{ matrix.target_build_type }}
-            echo "::group::pio run"
-            pio run --environment ${{ matrix.target_name }}${{ matrix.target_build_type }}
-            echo "::endgroup::"
-            unzip -l './build/${{ matrix.target_name }}${{ matrix.target_build_type }}/*.zip'
-      - name: Verify build
-        run: |
-          ls -la ESP/build/${{ matrix.target_name }}${{ matrix.target_build_type }}
+          context: .
+          file: ./volume_container/Dockerfile
+          push: true
+          tags: ghcr.io/vc_${{ github.repository }}:latest,ghcr.io/vc_${{ github.repository }}:${{ github.sha }}
+      - uses: actions/checkout@master

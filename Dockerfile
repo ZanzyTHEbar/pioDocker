@@ -1,7 +1,7 @@
 FROM python:3.9.0-slim
 
-ENV APP_VERSION="6.1.6" \
-    APP="platformio-core"
+ENV APP_VERSION="6.1.0" \
+    APP="esp32_platformio_core"
 
 LABEL app.name="${APP}" \
     app.version="${APP_VERSION}" \
@@ -14,7 +14,7 @@ RUN python -m pip install --upgrade pip && \
     mkdir -p /.platformio && \
     chmod a+rwx /.platformio && \
     pio upgrade --dev && \
-    pio pkg install -g --platform "platformio/espressif32" && \
+    pio pkg install -g --platform "platformio/espressif32@^6.1.0" && \
     pio pkg update --global && \
     apt update && apt install -y git unzip && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
