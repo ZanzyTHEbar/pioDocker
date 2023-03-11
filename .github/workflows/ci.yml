@@ -23,11 +23,9 @@ jobs:
           tags: test-image:latest
           push: false
       - name: Run Docker container
-        uses: addnab/docker-run-action@v3
+        uses: docker://sglahn/platformio-core:latest
         with:
-          image: test-image:latest
-          options: --rm --mount type=bind,source="${{ github.workspace }}",target=/workspace -u `id -u $USER`:`id -g $USER`
-          run: |
+          args: >-
             sudo apt update
             sudo apt install -y unzip
             cd /ESP
@@ -38,6 +36,21 @@ jobs:
             pio run --environment ${{ matrix.target_name }}${{ matrix.target_build_type }}
             echo "::endgroup::"
             unzip -l './build/${{ matrix.target_name }}${{ matrix.target_build_type }}/*.zip'
+        #uses: addnab/docker-run-action@v3
+        #with:
+        #  image: test-image:latest
+        #  options: --rm --mount type=bind,source="${{ github.workspace }}",target=/workspace -u `id -u $USER`:`id -g $USER`
+        #  run: |
+        #    sudo apt update
+        #    sudo apt install -y unzip
+        #    cd /ESP
+        #    export OPENIRIS_CI_BUILD=1
+        #    mkdir build 
+        #    mkdir build/${{ matrix.target_name }}${{ matrix.target_build_type }}
+        #    echo "::group::pio run"
+        #    pio run --environment ${{ matrix.target_name }}${{ matrix.target_build_type }}
+        #    echo "::endgroup::"
+        #    unzip -l './build/${{ matrix.target_name }}${{ matrix.target_build_type }}/*.zip'
       - name: Verify build
         run: |
           ls -l ./build/${{ matrix.target_name }}${{ matrix.target_build_type }}
