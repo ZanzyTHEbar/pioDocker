@@ -8,7 +8,7 @@ This is a custom Docker image for [Platformio](https://platformio.org/).
 - name: Run Docker container
   uses: addnab/docker-run-action@v3
   with:
-    image: pioDocker:latest
+    image: zanzythebar/piodocker:latest
     options: -v ${{ github.workspace }}/ESP:/workspace
     run: |
       export OPENIRIS_CI_BUILD=1
@@ -34,7 +34,7 @@ If you want to keep the downloaded packages, etc. you can save the PlatformIO co
 Alternatively you could use a data volume container to save the PlatformIO configuration. First create the data volume container
 
 ```bash
-docker run --name vc_platformio ZanzyTHEbar/vc_pioDocker:latest
+docker run --name vc_platformio zanzythebar/vc_piodocker:latest
 ```
 
 Then add the following line to the docker run call:
