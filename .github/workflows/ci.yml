@@ -28,9 +28,7 @@ jobs:
           image: test-image:latest
           options: -v ${{ github.workspace }}:/workspace
           run: |
-            sudo apt update
-            sudo apt install -y unzip
-            cd /ESP
+            ls -a
             export OPENIRIS_CI_BUILD=1
             mkdir build 
             mkdir build/${{ matrix.target_name }}${{ matrix.target_build_type }}
