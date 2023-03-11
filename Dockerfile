@@ -15,7 +15,7 @@ RUN python -m pip install --upgrade pip && \
     mkdir -p /workspace && \
     mkdir -p /.platformio && \
     chmod a+rwx /.platformio && \
-    apt update && apt install -y git && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/
+    apt update && apt install -y git unzip && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 USER 1001
 
