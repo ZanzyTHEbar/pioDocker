@@ -19,9 +19,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: ./Dockerfile
-          options: --rm \
-            --mount type=bind,source="${{ github.workspace }}",target=/workspace \
-            -u `id -u $USER`:`id -g $USER`
+          options: -v ${{ github.workspace }}:/workspace
           run: |
             cd /ESP
             export OPENIRIS_CI_BUILD=1
