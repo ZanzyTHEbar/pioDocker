@@ -1,0 +1,7 @@
+.pio/
+.vscode/
+build/
+*.log
+/tools/firmware_name.txt
+/tools/version.txt
+/tools/__pycache__/
