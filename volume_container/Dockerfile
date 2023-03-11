@@ -6,10 +6,7 @@ LABEL app.name="${APP}" \
     maintainer="DaOfficialWizard <pyr0ndet0s97@gmail.com>"
 
 RUN mkdir -p /.platformio && \
-    chmod 777 /.platformio && \
-    pio upgrade --dev && \
-    pio pkg install -g --platform "platformio/espressif32@^6.1.0"&& \
-    pio pkg update --global
+    chmod 777 /.platformio
 
 VOLUME ["/.platformio"]
 
