@@ -38,4 +38,4 @@ jobs:
             unzip -l './build/${{ matrix.target_name }}${{ matrix.target_build_type }}/*.zip'
       - name: Verify build
         run: |
-          ls -la
+          ls -la ESP/build/${{ matrix.target_name }}${{ matrix.target_build_type }}

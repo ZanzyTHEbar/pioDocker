@@ -10,11 +10,12 @@ LABEL app.name="${APP}" \
 RUN python -m pip install --upgrade pip && \
     pip install distro && \
     pip install -U platformio==${APP_VERSION} && \
-    pio upgrade --dev && \
-    pio pkg update --global && \
     mkdir -p /workspace && \
     mkdir -p /.platformio && \
     chmod a+rwx /.platformio && \
+    pio upgrade --dev && \
+    pio pkg install -g --platform "platformio/espressif32" && \
+    pio pkg update --global && \
     apt update && apt install -y git unzip && apt-get clean autoclean && apt-get autoremove --yes && rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 USER 1001
