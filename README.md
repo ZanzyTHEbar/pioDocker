@@ -8,7 +8,7 @@ This is a custom Docker image for [Platformio](https://platformio.org/).
 - name: Run Docker container
   uses: addnab/docker-run-action@v3
   with:
-    image: zanzythebar/piodocker:latest
+    image: ghcr.io/zanzythebar/piodocker:latest
     options: -v ${{ github.workspace }}/ESP:/workspace
     run: |
       export OPENIRIS_CI_BUILD=1
