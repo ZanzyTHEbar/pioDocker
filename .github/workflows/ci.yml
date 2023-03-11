@@ -23,11 +23,11 @@ jobs:
           tags: test-image:latest
           push: false
       - name: Run Docker container
-        uses: docker://sglahn/platformio-core:latest
+        uses: docker://test-image:latest
         with:
           args: >-
-            sudo apt update
-            sudo apt install -y unzip
+            apt update
+            apt install -y unzip
             cd /ESP
             export OPENIRIS_CI_BUILD=1
             mkdir build 
