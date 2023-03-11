@@ -26,8 +26,10 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: test-image:latest
-          options: -v ${{ github.workspace }}:/workspace
+          options: --rm --mount type=bind,source="${{ github.workspace }}",target=/workspace -u `id -u $USER`:`id -g $USER`
           run: |
+            sudo apt update
+            sudo apt install -y unzip
             cd /ESP
             export OPENIRIS_CI_BUILD=1
             mkdir build 
