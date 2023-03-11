@@ -28,7 +28,7 @@ jobs:
           image: test-image:latest
           options: -v ${{ github.workspace }}:/workspace
           run: |
-            ls -a
+            cd ESP
             export OPENIRIS_CI_BUILD=1
             mkdir build 
             mkdir build/${{ matrix.target_name }}${{ matrix.target_build_type }}
